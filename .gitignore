@@ -1,0 +1,11 @@
+# binaries
+bin/
+
+# intermediates
+int/
+
+# xcode
+**.xcodeproj
+
+# macosx 
+.DS_Store
