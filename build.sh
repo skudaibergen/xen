@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
 # compiling
-gcc src/main.c -c -o int/main
-gcc src/argv_parser.c -c -o int/argv_parser
+gcc src/entry.c -Isrc/** -c -o int/entry
+gcc src/orchestra.c -Isrc/** -c -o int/orchestra
+gcc src/sys_call.c -Isrc/** -c -o int/sys_call
+gcc src/stack.c -Isrc/** -c -o int/stack
 
 # linking
-gcc int/main int/argv_parser -o bin/xen
+gcc int/entry int/orchestra int/sys_call int/stack -o bin/xen
