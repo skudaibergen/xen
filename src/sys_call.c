@@ -114,7 +114,7 @@ int sys_call_kill_prcss(const char *pname)
         printf("killing process -- ");
         printf(BOLDYELLOW "{ pid: %d, name: %s }\n", pid, pname);
         printf(RESET);
-        kill(pid, SIGKILL);
+        kill(pid, SIGTERM);
     }
     
     pclose(cmd);

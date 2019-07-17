@@ -11,6 +11,7 @@
 int pull(const char *prj_name, const char *usrname, const char *passw);
 int build(const char *prj_name);
 int run(const char *prj_name);
+int killp(const char *prj_name);
 void all();
 
 int orchestrate(int argc, const char **argv)
@@ -60,6 +61,12 @@ int orchestrate(int argc, const char **argv)
         if (strcmp(argv[i], "--run") == 0)
         {
             mode = 2;
+            continue;
+        }
+
+        if (strcmp(argv[i], "--kill") == 0)
+        {
+            mode = 9;
             continue;
         }
         
@@ -118,7 +125,8 @@ int orchestrate(int argc, const char **argv)
             }
         }
     }
-    else if (mode == 2) {
+    else if (mode == 2)
+    {
         while (stack_size(proj_stack) != 0)
         {
             const char* projname = (char*) stack_pop(proj_stack);
@@ -127,6 +135,21 @@ int orchestrate(int argc, const char **argv)
             if (res > 0)
             {
                 printf(BOLDRED "RUN MODE FAILED\n");
+                printf(RESET);
+                return 1;
+            }
+        }
+    }
+    else if (mode == 9)
+    {
+        while (stack_size(proj_stack) != 0)
+        {
+            const char* projname = (char*) stack_pop(proj_stack);
+
+            int res = killp(projname);
+            if (res > 0)
+            {
+                printf(BOLDRED "KILL MODE FAILED\n");
                 printf(RESET);
                 return 1;
             }
@@ -190,6 +213,12 @@ int run(const char *prj_name)
     
     sys_call_cd("../..");
     return runres;
+}
+
+int killp(const char *prj_name)
+{
+    printf(BOLDMAGENTA "KILL MODE. project: %s\n" RESET, prj_name);
+    return sys_call_kill_prcss(prj_name);
 }
 
 void all()
