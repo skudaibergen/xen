@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+# cleaning
+rm -rf bin
+rm -rf int
+mkdir bin
+mkdir int
+
 # compiling
 gcc src/entry.c -Isrc/** -c -o int/entry
 gcc src/orchestra.c -Isrc/** -c -o int/orchestra

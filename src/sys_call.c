@@ -18,16 +18,14 @@ int str_ends_with(const char *str, const char *suffix);
 
 int sys_call_git_pull(const char *usrname, const char *passw)
 {
-    char *git_pull_cmd = "git pull origin dev";
-    
     printf("--- executing cmd: ");
-    printf(BOLDYELLOW "%s\n" RESET, git_pull_cmd);
+    printf(BOLDYELLOW "%s\n" RESET, GIT_PULL);
     printf("\n" RESET);
     
-    int res = system(git_pull_cmd);
+    int res = system(GIT_PULL);
     
     printf("\n--- executing cmd: ");
-    printf(BOLDYELLOW "%s " RESET, git_pull_cmd);
+    printf(BOLDYELLOW "%s " RESET, GIT_PULL);
     printf("finished with result: ");
     printf(BOLDYELLOW "%d \n" RESET, res);
 
@@ -54,7 +52,6 @@ int sys_call_cd(const char *relpath)
 
 int sys_call_run_java()
 {
-     printf ("SOOOQA\n");
     DIR *dir;
     struct dirent *ent;
     if ((dir = opendir ("./")) != NULL) {
@@ -114,19 +111,10 @@ int sys_call_kill_prcss(const char *pname)
     {
         int pid = (int) strtol(res, (char **)NULL, 10);
         const char *pn = sys_call_prcss_name(pid);
-        
-//        if (pn[0] == 'C' && pn[1] == 'M' && pn[2] == 'D')
-//        {
-//            printf(BOLDRED "there is no such process running! " RESET );
-//            printf("%s\n", pname);
-//            return 1;
-//        }
-
         printf("killing process -- ");
         printf(BOLDYELLOW "{ pid: %d, name: %s }\n", pid, pname);
         printf(RESET);
         kill(pid, SIGKILL);
-        return 0;
     }
     
     pclose(cmd);

@@ -38,7 +38,7 @@ int orchestrate(int argc, const char **argv)
             {
                 printf("FOUND USER: %s\n", username);
                 git_pass = getpass(BOLDGREEN "GIT Password: " RESET);
-                printf(BOLDGREEN "PASSWORD: %s\n" RESET , git_pass);
+                // printf(BOLDGREEN "PASSWORD: %s\n" RESET , git_pass);
                 i++;     // skip the username argument
             }
             
@@ -64,7 +64,11 @@ int orchestrate(int argc, const char **argv)
         }
         
         // PROJECT NAMES
-        stack_push(proj_stack, (void *) argv[i]);
+        char *formatted_arg = (char *) argv[i];
+        if (formatted_arg[strlen(formatted_arg) - 1] == '/')
+            formatted_arg[strlen(formatted_arg) - 1] = 0;
+
+        stack_push(proj_stack, (void *) formatted_arg);
     }
     
     // CHECKING IF ARGUMENT CONSIST PROJECT NAMES e.g without -- or - prefix
@@ -78,11 +82,13 @@ int orchestrate(int argc, const char **argv)
     // MODES EXECUTION
     if (mode == 0)
     {
+        /*
         if (!username)
         {
             printf(BOLDRED "git username must be defined!\n" RESET );
             return 1;
         }
+         */
         
         while (stack_size(proj_stack) != 0)
         {
@@ -182,7 +188,7 @@ int run(const char *prj_name)
     int killres = sys_call_kill_prcss(prj_name);
     int runres = sys_call_run_java();
     
-    sys_call_cd("..");
+    sys_call_cd("../..");
     return runres;
 }
 
